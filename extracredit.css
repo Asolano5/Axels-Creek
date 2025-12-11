@@ -1,0 +1,468 @@
+/*
+ Name: Axel Solano
+ Course: MIS 3371
+ File name: extracredit.css
+ Date created: 12/08/25
+ Date updated: 12/10/25
+ Description: 
+    - Form structure modifications (lines 12-55)
+    - Password visbility button icons (lines 60-93)
+    - Modal box styling (lines 100-155)
+    - Ranged slider styling (lines 265-316)
+ */
+ 
+ /* Start form structure gridbox*/
+ #myForm {
+    display: grid;
+    gap: 12px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.form-row {
+    grid-template-columns: 150px 1fr 1000px; 
+    display: grid;
+    align-items: center;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+}
+
+.radio-group {
+    display: flex;       
+    align-items: center; 
+    gap: 25px;           
+    flex-wrap: nowrap; 
+}
+
+.radio-group input + label {
+    margin-left: -30px; 
+    padding-left: 5px; 
+    cursor: pointer; 
+    white-space: nowrap; 
+}
+
+input[type="radio"], 
+input[type="checkbox"] {
+    width: auto; 
+    padding: 0;
+    transform: scale(1.2); 
+}
+/* End form structure gridbox*/
+
+/* Start password visibility */
+.password-container {
+    position: relative;
+    width: 100%; 
+}
+
+.password-container input {
+    padding-right: 40px; 
+    width: 100% !important; 
+    box-sizing: border-box; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-image: url(eye2.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.6;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+.toggle-password.active {
+    background-image: url(eye.png);
+}
+
+/* End password visibility */
+
+/* Start form submit modal box styling*/
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.output {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.output th, .output td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left; 
+}
+/* end form submit modal box styling*/
+ 
+/* Start header styling */
+#heading {
+  background-color: #477AE0;
+  position: sticky;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.header_center {
+  flex: 1;
+  text-align: center;
+  padding-left: 6%;
+}
+
+#title{
+  font-size: 300%;
+  margin: 0;
+  font-weight: bold;
+}
+
+#subtitle{
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+#logo {
+  left: 10px;
+  top: 5px;
+  width: 60px; 
+  height: auto; 
+}
+
+.header_right {
+  text-align: right;
+}
+
+#welcome_msg {
+  padding-top: 60px;
+  padding-right: 15px;
+  color: #D9F7FF;
+}
+
+#date_message {
+  padding-right: 15px;
+  color: #D9F7FF;
+}
+/* End header styling */
+
+/* Start body styling*/
+h1 {
+  text-indent: -100px;
+  font-size: 50px;
+  font-family: Garamond, serif;
+}
+
+h2 {
+  text-align: center;
+  font-family: Garamond, serif;
+}
+
+h3 {
+  text-decoration: underline;
+  text-align: center;
+  font-family: Garamond, serif;
+}
+
+td {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#userCreation{
+  padding-left: 6%;
+  border-spacing: 20px 10px;
+}
+
+#pContact{
+  padding-left: 6%;
+  border-spacing: 20px 10px;
+}
+
+#visitReason{
+  border-spacing: 20px 10px;
+}
+
+#addQuestions{
+  border-spacing: 20px 10px;
+}
+
+#insProvider{
+  padding-left: 6%;
+  border-spacing: 20px 10px;
+}
+
+body {
+  background-color: aliceblue;
+  padding-bottom: 110px;
+  margin: 0;
+}
+
+#rangedisplay {
+    display: block;
+    text-align: center;
+    margin-top: 1%;
+    flex-basis: 100%; 
+}
+
+.slider-container {
+    display: flex;          
+    align-items: center;    
+    gap: 10px;              
+    flex-wrap: wrap;        
+    width: 100%; 
+}
+
+.slider-container span {
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap; 
+}
+
+.slider {
+    flex-grow: 1; 
+    width: auto !important; 
+    height: 4px;
+    background: var(--slider-color, green);
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: whitesmoke; 
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: whitesmoke; 
+    cursor: pointer;
+}
+
+
+.passwordValidationMsgs {
+  width: 70%;
+  opacity: 0.9;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: aliceblue;
+  border-spacing: 00px;
+  color: red;
+}
+
+#fname_message, #lname_message, #mi_message, #bday_message, #ssn_message, #phone_message, #insurance_msg {
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#returnValues{
+    background-image: linear-gradient(to right, #67C2CF, #9DDCEB);
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+}
+
+#validateEntry{
+  background-image: linear-gradient(to right, #dce132, #d9e679);
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+}
+
+#sub{
+  background-image: linear-gradient(to right, #4CAF50, #8BC34A);
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  height:20%; 
+  width:5%;
+}
+
+#res{
+  background-image: linear-gradient(to right, #ff0000, #cc0000);
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  height:20%; 
+  width:5%;
+}
+
+.buttonHolder{ 
+  display: flex; 
+  justify-content: center;
+  gap: 20px; 
+  }
+  
+.buttonHolder label {
+    display: flex;       
+    align-items: center; 
+    gap: 10px;  
+    white-space: nowrap;
+}
+
+table.output, tr.output, td.output {
+  width: 70%;
+  opacity: 0.9;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color:#477AE0;
+  padding: 2px;
+  border-spacing: 2px;
+  color:rgb(222, 243, 245);
+}
+
+td.outputdata {
+  width: 70%;
+  opacity: 0.9;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color:white;
+  padding: 2px;
+  border-spacing: 2px;
+  color:black;
+}
+
+.iframe_container {
+    width: 100%;
+    height: 300px; 
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.iframe_containter iframe {
+    position: absolute; 
+    top: 64%;           
+    right: 1px;  
+    transform: translateY(-50%);
+    width: 35%;
+    height: 50%;
+    border-width: 4px;
+    border-color: #477AE0;
+    border-style: solid;
+}
+
+figcaption{
+   position: absolute;
+   transform: translateY(-50%);
+   top: 92%;
+   right: 9%;
+   text-decoration: underline;
+   color: #477AE0;
+}
+/* End body styling */
+
+/* Start footer styling */
+#footer{
+  background-color: #477AE0;
+  font-family: Garamond, serif;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  padding-top: 10px;
+  padding-bottom: .0001%;
+}
+
+.footer-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left p {
+  margin: 2px 0;
+  padding: 0;
+  top: 15%;
+  color: white;
+  font-size: 19px;    
+  line-height: 1.2;
+}
+
+.footer-highlight {
+  color: #FFED29;
+  font-weight: bold;
+}
+
+.footer-right img {
+  height: 120px;
+  width: auto;
+  
+}
+
+
+.container::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* End footer styling */

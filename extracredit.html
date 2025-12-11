@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+ <!--
+ Name: Axel Solano
+ Course: MIS 3371
+ File name: extracredit.html
+ Date created: 12/08/25
+ Date updated: 12/10/25
+ Description: 
+    - Implementation of google maps api (lines 21-22)
+    - Overhaul of mainForm structure using divs
+    - Removal of validation buttons, submit button modified (lines 518-525)
+    - Modal box implementation (lines 551-561)
+ -->
+ <html lang="en">
+    <head>
+        <meta charset= "utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="extracredit.css"> 
+        <title> extra credit form </title>
+    </head>
+    <body>
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyD1aMVO2q-I8hZmGG0lhDUsXfAqzbilcNg", v: "weekly"});</script>
+        <div id="heading">
+            <img id="logo" src="simi logo.jpg" alt="Dr simi logo"
+            style="float: left;width:8.5%;height:8.5%;">
+            <div class="header_center">
+                <p id="title">Dr. Simi's Clinic</p>
+                <p id="subtitle">New Patient Registration Form</p>
+            </div>
+            <div class="header_right">
+                <p id="welcome_msg">Welcome <span id="user"></span>&nbsp</p>
+                <p id="date_message">Today's date: <span id="today"></span>&nbsp</p>
+            </div>
+        </div>
+
+        <div id="body">
+            <form id="mainForm" action="https://axels-barn.w3spaces.com/MIS3371/Homework1/hw1Submission.html" method="POST">
+                <h3>User Creation</h3>
+                    <div class="form-row">
+                        <label for="fname">First Name</label>
+                        <input type="text" 
+                            id="fname" 
+                            name="fname"
+                            maxlength="30"
+                            pattern="[A-Z^a-z-' ^~]{2,}"
+                            onblur="fNameValidation()"
+                            oninvalid="this.setCustomValidity('First Name not valid.')"
+                            oninput="this.setCustomValidity('')"
+                            title="1-30 characters; only letters, spaces, &quot-&quot and ' allowed."
+                            placeholder="Jabba (required)"
+                            required> 
+                        <span id="fname_message"></span>
+                    </div> 
+                
+                <div class="form-row">
+                    <label for="mi">MI</label>
+                    <input type="text" 
+                            size="1"
+                            id="mi" 
+                            name="mi"
+                            maxlength="1"
+                            onblur="miValidation()"
+                            oninput="miValidation()"
+                            title="Optional; only one chracter that is a letter."
+                            pattern="[A-Z^a-z ]{0,}">
+                    <span id="mi_message"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="lname">Last Name</label>
+                   <input type="text" 
+                            id="lname" 
+                            name="lname"
+                            maxlength="30"
+                            pattern="[A-Z^a-z \-'^~]{2,}"
+                            onblur="lNameValidation()"
+                            oninput="lNameValidation()"
+                            title="1-30 characters; only letters, spaces, numbers 2-5, &quot-&quot and ' allowed."
+                            placeholder="Hutt (required)"
+                            required>
+                   <span id="lname_message"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="uID"> User ID</label>
+                   <input type="text" 
+                            id="uID" 
+                            name="uID"
+                            minlength="5"
+                            maxlength="30"
+                            pattern="[A-Za-z]+[A-Za-z0-9-_]{8,}"
+                            oninvalid="this.setCustomValidity('Invalid User ID. Enter letters, numbers, dash or underscores. 1st character must be a letter.')"
+                            oninput="uIdValidator()"
+                            onblur="uIdValidator()"
+                            title="5-30 characters (no special characters and spaces); only letters, numbers, - and _ "
+                            required>
+                   <span class="passwordValidationMsgs" id="uID_message1"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="email" 
+                            id="email" 
+                            name="email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,20}$"
+                            oninvalid="this.setCustomValidity('e-Mail not valid.')"
+                            oninput="emailValidator()"
+                            onblur="emailValidator()"
+                            placeholder="jabba@xyz.com (required)"
+                            title="In the format: name@domain.tld"
+                            required>
+                    <span class="passwordValidationMsgs" id="email_message1"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="pword">Password</label>
+                   <div class="password-container">
+                   <input type="password" 
+                            id="pword" 
+                            name="pword"
+                            maxlength="20"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            oninput="pwordValidator()"
+                            onfocus="pwordValidator()"
+                            onblur="pwordValidator()"
+                            placeholder="(required)"
+                            title="8-30 characters; must contain atleast 1 upper case, 1 lower case letter, 1 digit, and one special character."
+                            required>
+                   <button type="button" id="togglePassword" class="toggle-password" aria-label="Toggle Password Visibility"></button>
+                   </div>
+                   <span></span>
+                   <span class="passwordValidationMsgs" id="password_message1"></span>
+                   <span class="passwordValidationMsgs" id="password_message2"></span>
+                   <span class="passwordValidationMsgs" id="password_message3"></span>
+                   <span class="passwordValidationMsgs" id="password_message4"></span>
+                   <span class="passwordValidationMsgs" id="password_message5"></span>
+                   <span class="passwordValidationMsgs" id="password_message6"></span>
+                  
+                </div>
+                
+                <div class="form-row">
+                   <label for="cpword">Confirm Password</label>
+                   <div class="password-container">
+                   <input type="password" 
+                            id="cpword" 
+                            name="cpword"
+                            maxlength="20"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            oninput="cpwordValidator()"
+                            onfocus="cpwordValidator()"
+                            onblur="cpwordValidator()"
+                            placeholder="(required)"
+                            title="Must match password from previous input box."
+                            required>
+                   <button type="button" id="toggleConfirmPassword" class="toggle-password" aria-label="Toggle Confirm Password Visibility"></button>
+                   </div>
+                   <span class="passwordValidationMsgs" id="cpword_msg"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="sex">Gender</label>
+                   <div class="radio-group">
+                   <input type="radio" 
+                            id="m" 
+                            name="sex" 
+                            value="Male"
+                            required>
+                            <label for="m">Male</label>
+                            
+                            <input type="radio" 
+                            id="f" 
+                            name="sex" 
+                            value="Female">
+                            <label for="f">Female</label>
+                            
+                            <input type="radio" 
+                            id="o" 
+                            name="sex" 
+                            value="Other">
+                            <label for="o">Other</label>
+                    <span class="passwordValidationMsgs" id="gender_msg"></span>
+                   </div>
+                </div>
+                
+                <div class="form-row">
+                    <label for="bday">Birth Date</label>
+                    <input type="date" 
+                            id="bday" 
+                            name="bday"
+                            oninput="bDayValidation()"
+                            onblur="bDayValidation()"
+                            onfocus="bDayValidation()"
+                            required>
+                    <span class="passwordValidationMsgs" id="bday_message"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="ssn">SSN</label>
+                    <input type="password" 
+                            size="9"
+                            id="ssn" 
+                            name="ssn"
+                            maxlength="11"
+                            oninput="ssnValidation()"
+                            onblur="ssnValidation()"
+                            title="If unsure or don't have one, leave blank; leave out dashes."
+                            placeholder="# # # # #">
+                    <span class="passwordValidationMsgs" id="ssn_message"></span>
+                </div>
+                
+                <figure class="iframe_containter">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3463.919774972394!2d-95.525887!3d29.751034899999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c37133d7cea5%3A0x5375af22a1932c32!2s19323%20Memorial%20Dr%2C%20Piney%20Point%20Village%2C%20TX%2077024!5e0!3m2!1sen!2sus!4v1763694991763!5m2!1sen!2sus" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            title="office location on google maps">
+                    </iframe>
+                    <figcaption>Dr. Simi's office on google maps.</figcaption>
+                </figure>
+
+                <h3>Patient Contact Information</h3>
+                <div class="form-row">
+                   <label for="ad1">Address 1</label>
+                   <input type="text"
+                            id="ad1"
+                            name="ad1"
+                            maxlength="30"
+                            onblur="ad1Validation()"
+                            oninvalid="this.setCustomValidity('At least 1 address line Required')"
+                            oninput="ad1Validation()"
+                            title="2-30 characters."
+                            placeholder="333 Joy Ln (required)"
+                            required>
+                   <span class="passwordValidationMsgs" id="ad1_message"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="ad2">Address 2</label>
+                   <input type="text"
+                            id="ad2"
+                            name="ad2"
+                            title="Optional; 2-30 characters."
+                            maxlength="30"
+                            onblur="ad2Validation()"
+                            oninput="ad2Validation()"
+                            placeholder="Apt #, etc"
+                            maxlength="30">
+                   <span class="passwordValidationMsgs" id="ad2_message"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="city">City</label>
+                    <input type="text"
+                            id="city"
+                            name="city"
+                            maxlength="30"
+                            pattern="^[ a-zA-Z3-5'-]+$"
+                            oninvalid="this.setCustomValidity('City required')"
+                            oninput="cityValidator()"
+                            onblur="cityValidator()"
+                            title="2-30 characters."
+                            placeholder="Gotham (required)"
+                            required>
+                    <span class="passwordValidationMsgs" id="city_msg"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="state">State</label>
+                    <select id="state" name="state" onblur="stateValidator()">
+                        <option value="">Select a state</option>
+                    </select>
+                    <span class="passwordValidationMsgs" id="state_msg"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text"
+                            id="zip"
+                            name="zip"
+                            maxlength="10"
+                            title="5-10 characters."
+                            pattern="[0-9]{5,10}"
+                            oninvalid="this.setCustomValidity('Zip Code required')"
+                            oninput="zipValidator()"
+                            onblur="zipValidator()"
+                            placeholder="770736 (required)"
+                            required>
+                    <span class="passwordValidationMsgs" id="zip_msg"></span>
+                </div>
+                
+                <div class="form-row">
+                   <label for="phone">Phone Number</label>
+                   <input type="text"
+                            id="phone"
+                            name="phone"
+                            maxlength="14"
+                            pattern="^\(\d{3}\)\s\d{3}-\d{4}$"
+                            title="In format: 000-000-0000"
+                            placeholder="(281)330-8004 (required)"
+                            onblur="phoneValidator()"
+                            oninput="phoneValidator()"
+                            
+                            required>
+                   <span class="passwordValidationMsgs" id="phone_message"></span>
+                </div>
+                
+                <div class="form-row">
+                    <label for="plang">Preferred Language</label>
+                    <select id="plang" name="plang">
+                                <option value="">Select a language</option>
+                                <option value="english">English</option>
+                                <option value="spanish">Spanish</option>
+                                <option value="french">French</option>
+                                <option value="chinese">Chinese</option>
+                                <option value="vietnamese">Vietnamese</option>
+                            </select>
+                </div>
+                
+                <div class="form-row">
+                    <label for="pmeth">Preferred Contact Method</label>
+                    <select id="pmeth" name="pmeth">
+                                <option value="">Select a contact method</option>
+                                <option value="email">Email</option>
+                                <option value="text">Text</option>
+                                <option value="phone call">Phone Call</option>
+                            </select>
+                </div>
+                
+                <h3>Reason for Visit</h3>
+                <div class="form-row">
+                   <label for="reason">Select the following<br>reason for your visit</label> 
+                   <div class="radio-group">
+                   <input type="checkbox"
+                            id="fever"
+                            name="reason"
+                            value="fever">
+                            <label for="fever">Fever</label>
+                            <input type="checkbox"
+                            id="asthma"
+                            name="reason"
+                            value="asthma">
+                            <label for="asthma">Asthma</label>
+                            <input type="checkbox"
+                            id="checkup"
+                            name="reason"
+                            value="checkup">
+                            <label for="checkup">Checkup</label>
+                            <input type="checkbox"
+                            id="allergy"
+                            name="reason"
+                            value="allergy">
+                            <label for="allergy">Allergy</label>
+                            <input type="checkbox"
+                            id="vaccinations"
+                            name="reason"
+                            value="vaccinations">
+                            <label for="vaccinations">Vaccinations</label>
+                            <input type="checkbox"
+                            id="other"
+                            name="reason"
+                            value="other">
+                            <label for="other">Other</label>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                  <label for="rexplanation">Reason Explanation</label>
+                  <textarea
+                            id="rexplanation"
+                            name="rexplanation"
+                            title="Optional; provide further details about your symptoms."
+                            placeholder="Provide further details about your symptoms."
+                            maxlength="300"
+                            style="width: 700px;"
+                            rows="8" cols="500"></textarea>
+                </div>
+                
+                <div class="form-row">
+                   <label for="severity">Symptom severity<br>(Rate from 1-10)</label> 
+                   <div class="slider-container">
+                            <span>1</span>
+                            <input type="range" 
+                            class="slider"
+                            id="severity" 
+                            name="severity"
+                            min="1"
+                            max="10"
+                            value="1"
+                            list="increments"
+                            oninput="updateSliderAppearance(this.value)">
+                            <span>10</span>
+                            <span id="rangedisplay"></span>
+                            <datalist id="increments">
+                                <option value="1"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                                <option value="6"></option>
+                                <option value="7"></option>
+                                <option value="8"></option>
+                                <option value="9"></option>
+                                <option value="10"></option>
+                             </datalist> 
+                    </div>
+                </div>
+                
+                <h3>Additional Questions</h3>
+                <div class="form-row">
+                    <label for="fillness">Do any of these illnesses<br>run in your family?</label>
+                    <div class="radio-group">
+                    <input type="checkbox"
+                        id="diabetes"
+                        name="fillness"
+                        value="diabetes">
+                        <label for="diabetes">Diabetes</label>
+                        <input type="checkbox"
+                        id="cancer"
+                        name="fillness"
+                        value="cancer">
+                        <label for="cancer">Cancer</label>
+                        <input type="checkbox"
+                        id="hypertension"
+                        name="fillness"
+                        value="hypertension">
+                        <label for="hypertension">Hypertension</label>
+                        <input type="checkbox"
+                        id="obesity"
+                        name="fillness"
+                        value="obesity">
+                        <label for="obesity">Obesity</label>
+                        <input type="checkbox"
+                        id="alzheimer's"
+                        name="fillness"
+                        value="alzheimer's">
+                        <label for="alzheimer's">Alzheimer's</label>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <label for="allergies">Any allergies we should be aware of?</label>
+                    <textarea
+                            id="allergies"
+                            name="allergies"
+                            title="Optional; state any allergies we should know about."
+                            placeholder="State any allergies we should know about."
+                            maxlength="100"
+                            rows="6" cols="50"></textarea>
+                </div>
+                
+                <div class="form-row">
+                  <label for="vacc">Have you had a flu vaccination within the last year?</label>
+                  <div class="radio-group">
+                  <input type="radio"
+                            id="yes"
+                            name="vacc"
+                            value="Yes">
+                            <label for="yes">Yes</label>
+                            <input type="radio"
+                            id="no"
+                            name="vacc"
+                            value="No">
+                            <label for="no">No</label>
+                  </div>
+                </div>
+                
+                    
+                <h3>Insurance Provider</h3>
+                <div class="form-row">
+                   <label for="haveInsurance">Do you have an insurance provider?</label>
+                   <div class="radio-group">
+                   <input type="radio"
+                            id="y"
+                            name="haveInsurance"
+                            value="Yes"
+                            required>
+                            <label for="y">Yes</label>
+                            <input type="radio"
+                            id="n"
+                            name="haveInsurance"
+                            value="No">
+                            <label for="n">No</label>
+                   </div>
+                </div>
+                
+                <div class="form-row">
+                    <label for="IDnum">ID Number</label>
+                    <input type="text"
+                            id="IDnum"
+                            name="IDnum"
+                            placeholder="XXX21A123 (optional)"
+                            title="If you don't have an insurance provider, leave blank.">
+                </div>
+                
+                <div class="form-row">
+                   <label for="groupNum">Group Number</label> 
+                   <input type="text"
+                            id="groupNum"
+                            name="groupNum"
+                            placeholder="123456 (optional)"
+                            title="If you don't have an insurance provider, leave blank.">
+                </div>
+                
+                <div class="form-row">
+                  <label for="inType">Insurance Type</label> 
+                  <select id="inType" name="inType">
+                                <option value="">Select insurance type</option>
+                                <option value="HMO">HMO</option>
+                                <option value="PPO">PPO</option>
+                                <option value="EPO">EPO</option>
+                                <option value="HDHP">HDHP</option>
+                                <option value="other">Other</option>
+                            </select>
+                </div>
+                
+                <div id="insurance_msg"></div>
+                    
+                
+                <div class="buttonHolder">
+                    <input id="sub" type="button" value="Submit" onclick="mainFormValidator()">
+                    <input id="res" type="reset" value="Reset">
+                    <label>
+                        Remember Me
+                    <input type="checkbox" id="rememberMe" >
+                    </label>
+                </div>
+            </form>
+            
+        </div>
+        
+        <div id="footer">
+            <div class="footer-content">
+            <div class="footer-left">
+                <p>Dr. Simi's Clinic</p>
+                <p>19323 Memorial Dr, Houston TX, 77079</p>
+                <p>
+                    <span>Contact: </span>
+                    <span class="footer-highlight">281-330-8004</span> | 
+                    <span class="footer-highlight">DrSimis_clinic@outlook.com</span>
+                </p>
+            </div>
+             <div class="footer-right">
+                <a href="https://www.instagram.com/drsimiusa/" target="_blank">
+                    <img src="./IgLogo.png" alt="IG Logo" title="Visit our Instagram!">
+                </a>
+            </div>
+            </div>
+        </div>
+    
+    <!-- IMPLEMENTATION OF SUBMIT MODAL BOX-->
+        <div id="reviewModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Review Your Details</h2>
+                <div id="inputValues"></div>
+                <div class="modal-buttons">
+                    <button onclick="submitForm()">Final Submit</button>
+                    <button onclick="closeModal()">Go Back / Edit</button>
+                </div>
+            </div>
+        </div>
+            
+        <script src="extracredit.js"></script>
+    </body>    
+</html>
